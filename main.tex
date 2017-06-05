@@ -1,0 +1,96 @@
+\documentclass[spanish, fleqn]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage{ amssymb }
+\usepackage{enumitem}
+\usepackage{fourier}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\usepackage{verbatim}
+\usepackage{ cancel }
+\usepackage[top = 2.0cm, bottom = 2cm, left = 2.5cm, right = 2.5cm]{geometry}
+
+\newcommand{\num}{4}
+
+\title{Estructuras Discretas \\
+	Tarea \#\num \\
+	``Cómo aprender a generar en una tarde''}
+\author{Sonny Muñoz Galaz}
+\date{(201673003-6)}
+\begin{document}
+	\maketitle
+	\thispagestyle{empty}
+	
+    Utilice funciones generatrices ordinarias para responder las siguientes preguntas.
+    
+	% Pregunta 1
+	\section{Recurrencia}
+	Halle una fórmula explícita para \(a_n\) dada la siguiente recurrencia:
+    \begin{equation*}
+    a_{n} = {n \choose 2} + 3a_{n-1} \qquad a_{0}=1
+    \end{equation*}
+
+	
+	%% Pregunta 2
+	\section{Safari}
+	Un safari nuevo en la Selva Amazónica quiere armar un área mixta solo con animales herbívoros. El safari cuenta con los siguientes: elefantes, jirafas, ciervos y gansos. El área debe obedecer:
+    \begin{itemize}
+    \item Puede haber una cantidad libre de gansos.
+    \item No puede haber más de dos elefantes.
+    \item Los ciervos deben ir en grupos de a cuatro.
+    \item No debe haber más de cinco jirafas.
+    \end{itemize}
+    \begin{enumerate}
+    \item[a)] ¿De cuántas formas se puede armar esta área si se quiere que hayan 20 animales en ella?
+    
+    Obtenemos expresiones (polinomios característicos) para cada animal con sus respectivas condiciones.
+    
+    $\bullet$ Cantidad libre de gansos:
+    \begin{align*}
+        G(z) &= 1z^0 + 1z^1 + 1z^2 + ...\\
+        &= \sum_{n\geqslant0} z^n \\
+        &= \frac{1}{1-z} 
+    \end{align*}
+    $\bullet$ No más de $2$ elefantes:
+    \begin{align*}
+        E(z) &= 1z^0 + 1z^1 + 1z^2 + \cancel{0z^3} + \cancel{0z^4} + ...\\
+        &= 1 + 1z^1 + 1z^2
+    \end{align*}
+    $\bullet$ Ciervos en grupos de a $4$:
+    \begin{align*}
+        C(z) &= 1z^0 + 1z^4 + 1z^8 + ...\\
+        &= \sum_{n\geqslant0} z^{4n} \\
+        &= \sum_{n\geqslant0} (z^{4})^n\\
+        &= \frac{1}{1-z^4}
+    \end{align*}
+    $\bullet$ No más de $5$ jirafas:
+    \begin{align*}
+        J(z) &= 1z^0 + 1z^1 + 1z^2 + 1z^3 + 1z^4 + 1z^5 \cancel{0z^6} + \cancel{0z^7} + ...\\
+        &= 1 + z^1 + z^2 + z^3 + z^4 + z^5
+    \end{align*}
+    
+    Multiplicaremos las expresiones para obtener la función generatriz que representa esta situación y buscaremos el coeficiente que acompaña a $z^{20}$ :
+    $$P(z) = G(z) \cdot E(z) \cdot C(z) \cdot J(z)$$
+    $$P(z) = \frac{1}{1-z} \cdot (1 + 1z^1 + 1z^2) \cdot \frac{1}{1-z^4} \cdot (1 + z^1 + z^2 + z^3 + z^4 + z^5)$$
+    $$P(z) = 1 + 3z^1 + 6z^2 + ... + 85z^20 + ...$$
+    Como el coeficiente de $z^20$ es $85$ , existen $85$ maneras distintas de distribuir $20$ animales en el área
+    
+    \item[b)] Se agrega una quinta regulación: si se decide incluir alguna especie en el área, se debe incluir más de un animal de dicha especie. ¿De cuántas formas se puede armar ahora el área con 20 animales?
+    \end{enumerate}
+    
+    
+	
+	%% Pregunta 3
+	\section{Da2 mágicos}
+    Se tienen dos dados canónicos de 4 caras (\{1,2,3,4\}), un dado canónico de 6 caras (\{1,2,3,4,5,6\}), dos dados canónicos de 8 caras (\{1,2,3,4,5,6,7,8\}) y un dado desconocido. Determine, en cada caso, el dado desconocido (número de caras y los valores de cada cara):
+    \begin{itemize}
+    \item[a)] Si se tiran los 2 dados canónicos de 4 caras y el dado desconocido, existe la misma posibilidad de que salgan cada uno de los valores que al tirar los 2 dados canónicos de 8 caras.
+    \item[b)] Determine si existe un dado tal que si se tira el dado desconocido y el dado (\{0,1,2\}), exista el doble de posibilidad de que salga un 1, 3 y 5 que al tirar el dado canónico de 6 caras, y la misma posibilidad para los demás valores.
+    \item[c)] ¿Existe un dado tal que al tirarlo con el dado \{1,2,2,3,3,4,4,5\}, tiene la misma posibilidad de que salgan cada uno de los valores que al tirar los dos dados canónicos de 8 caras? Si es así, encuentre el dado.
+	\end{itemize}
+    
+	\hfill (35 ptos.)\\
+	\vfill\hfill DSW/\LaTeXe
+\end{document}

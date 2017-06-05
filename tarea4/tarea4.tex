@@ -1,0 +1,74 @@
+\documentclass[spanish, fleqn]{article}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts}
+\usepackage{enumitem}
+\usepackage[colorlinks, urlcolor=blue]{hyperref}
+\usepackage{fourier}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\usepackage{verbatim}
+\usepackage[top = 2.0cm, bottom = 2cm, left = 2.5cm, right = 2.5cm]{geometry}
+
+\newcommand{\num}{4}
+
+\title{Estructuras Discretas \\
+	Tarea \#\num \\
+	``Cómo aprender a generar en una tarde''}
+\author{Andrés Navarro \\ (201673001-K)}
+\date{}
+\begin{document}
+	\maketitle
+	\thispagestyle{empty}
+	
+    Utilice funciones generatrices ordinarias para responder las siguientes preguntas.
+    
+	\section{Recurrencia}
+	Halle una fórmula explícita para \(a_n\) dada la siguiente recurrencia:
+    \begin{equation*}
+    a_{n} = {n \choose 2} + 3a_{n-1} \qquad a_{0}=1
+    \end{equation*}
+    
+    Se define la generatriz a buscar:
+    \begin{equation*}
+    A(z) = \sum_{n \geqslant 0} a_n z^n
+    \end{equation*}
+	
+	Modificamos la expresión inicial:
+	\begin{equation*}
+	a_{n+1} = {n+1 \choose 2} + 3a_{n} \qquad a_{0}=1
+	\end{equation*}
+	
+	Aplicando ogf en cada término:
+	\begin{align*}
+	\sum_{n \geqslant 0} a_{n+1}z^n &= \sum_{n \geqslant 0} {n+1 \choose 2}z^n +\sum_{n \geqslant 0} 3a_{n}z^n \\
+	\frac{A(z)- a_{0}}{z} &T= \sum_{n \geqslant 0} {n+1 \choose 2}z^n + 3A(z)
+	\end{align*}
+	%% Pregunta 2
+	\section{Safari}
+	Un safari nuevo en la Selva Amazónica quiere armar un área mixta solo con animales herbívoros. El safari cuenta con los siguientes: elefantes, jirafas, ciervos y gansos. El área debe obedecer:
+    \begin{itemize}
+    \item Puede haber una cantidad libre de gansos.
+    \item No puede haber más de dos elefantes.
+    \item Los ciervos deben ir en grupos de a cuatro.
+    \item No debe haber más de cinco jirafas.
+    \end{itemize}
+    \begin{enumerate}
+    \item[a)] ¿De cuántas formas se puede armar esta área si se quiere que hayan 20 animales en ella?
+    \item[b)] Se agrega una quinta regulación: si se decide incluir alguna especie en el área, se debe incluir más de un animal de dicha especie. ¿De cuántas formas se puede armar ahora el área con 20 animales?
+    \end{enumerate}
+	\hfill (35 ptos.)
+	
+	%% Pregunta 3
+	\section{Da2 mágicos}
+    Se tienen dos dados canónicos de 4 caras (\{1,2,3,4\}), un dado canónico de 6 caras (\{1,2,3,4,5,6\}), dos dados canónicos de 8 caras (\{1,2,3,4,5,6,7,8\}) y un dado desconocido. Determine, en cada caso, el dado desconocido (número de caras y los valores de cada cara):
+    \begin{itemize}
+    \item[a)] Si se tiran los 2 dados canónicos de 4 caras y el dado desconocido, existe la misma posibilidad de que salgan cada uno de los valores que al tirar los 2 dados canónicos de 8 caras.
+    \item[b)] Determine si existe un dado tal que si se tira el dado desconocido y el dado (\{0,1,2\}), exista el doble de posibilidad de que salga un 1, 3 y 5 que al tirar el dado canónico de 6 caras, y la misma posibilidad para los demás valores.
+    \item[c)] ¿Existe un dado tal que al tirarlo con el dado \{1,2,2,3,3,4,4,5\}, tiene la misma posibilidad de que salgan cada uno de los valores que al tirar los dos dados canónicos de 8 caras? Si es así, encuentre el dado.
+	\end{itemize}
+    
+	\hfill (35 ptos.)\\
+	\vfill\hfill DSW/\LaTeXe
+\end{document}
