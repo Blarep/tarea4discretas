@@ -9,8 +9,10 @@
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{positioning}
 \usepackage{verbatim}
-\usepackage[top = 2.0cm, bottom = 2cm, left = 2.5cm, right = 2.5cm]{geometry}
-
+\usepackage[top = 2.5cm, bottom = 2cm, left = 2.5cm, right = 2.5cm]{geometry}
+\usepackage{parskip}
+\setlength{\parskip}{2mm}
+\pagestyle{empty}
 \newcommand{\num}{4}
 
 \title{Estructuras Discretas \\
@@ -26,9 +28,8 @@
     
 	\section{Recurrencia}
 	Halle una fórmula explícita para \(a_n\) dada la siguiente recurrencia:
-    \begin{equation*}
-    a_{n} = {n \choose 2} + 3a_{n-1} \qquad a_{0}=1
-    \end{equation*}
+	
+    $a_n = \binom{n}{2}+ 3a_{n-1} a_{0}=1$
     
     Se define la generatriz a buscar:
     \begin{equation*}
@@ -37,13 +38,43 @@
 	
 	Modificamos la expresión inicial:
 	\begin{equation*}
-	a_{n+1} = {n+1 \choose 2} + 3a_{n} \qquad a_{0}=1
+	a_{n+1} = \binom{n+1}{2} + 3a_{n} \qquad a_{0}=1
 	\end{equation*}
 	
 	Aplicando ogf en cada término:
 	\begin{align*}
-	\sum_{n \geqslant 0} a_{n+1}z^n &= \sum_{n \geqslant 0} {n+1 \choose 2}z^n +\sum_{n \geqslant 0} 3a_{n}z^n \\
-	\frac{A(z)- a_{0}}{z} &T= \sum_{n \geqslant 0} {n+1 \choose 2}z^n + 3A(z)
+	\sum_{n \geqslant 0} a_{n+1}z^n &= \sum_{n \geqslant 0} \binom{n+1}{2}z^n +\sum_{n \geqslant 0} 3a_{n}z^n \\
+	\frac{A(z)- a_{0}}{z} &= \sum_{n \geqslant 0} \binom{n+1}{2}z^n + 3A(z)
+	\end{align*}
+	Trabajando la sumatoria		
+	\begin{align*}
+	\sum_{n \geqslant 0} \binom{n+1}{2}z^n &= z\sum_{n \geqslant 0} \binom{n+1}{2}z^{n-1}\\
+	\end{align*}
+	Cambio de variable $k = n-1$
+	\begin{align*}	
+	\sum_{n \geqslant 0} \binom{n+1}{2}z^n&=z\sum_{k \geqslant 0} \binom{k+2}{2}z^k\\  
+	&=z \cdot \frac{1}{(1-z)^3}
+	\end{align*}
+	Reemplazando en la expresión original
+	\begin{align*}
+	\frac{A(z)- 1}{z} &=z \cdot \frac{1}{(1-z)^3} + 3A(z)
+	\end{align*}
+	Ahora despejaremos $A(z)$
+	\begin{align*}
+	A(z) &=\frac{z^2}{(1-z)^3} + 3\cdot z\cdot A(z)+ 1\\
+	A(z) (1-3z)&=\frac{z^2}{(1-z)^3}  +1\\
+	A(z)&=\frac{z^2}{(1-z)^3(1-3z)} +  \frac{1}{(1-3z)}
+	\end{align*}
+	Utilizando fracciones parciales
+	\begin{align*}
+	A(z)&= -\frac{11}{8(3z-1)}+ \frac{1}{8(z-1)}+\frac{1}{4(z-1)^2}+\frac{1}{2(z-1)^3}\\
+	&= \frac{11}{8(1-3z)}- \frac{1}{8(1-z)}+\frac{1}{4(1-z)^2}-\frac{1}{2(1-z)^3}\\
+	&= \frac{11}{8}\sum_{n \geqslant 0} 3^n z^n -\frac{1}{8}\sum_{n \geqslant 0} z^n + \frac{1}{4} \sum_{n \geqslant 0} (n+1)z^n-\frac{1}{2} \sum_{n \geqslant 0} \frac{(n+1)(n+2)}{2}z^n
+	\end{align*}
+	Extraemos $a_n$ en cada expresión y obtenemos finalmente:
+	\begin{align*}
+	a_n &= \frac{11}{8} \cdot 3^n-\frac{1}{8}+\frac{1}{4} \cdot (n+1)-\frac{1}{4} \cdot (n+1)(n+2)\\
+	a_n &= \frac{11 \cdot 3^n}{8} - \frac{1}{8}-\frac{(n+1)^2}{4}
 	\end{align*}
 	%% Pregunta 2
 	\section{Safari}
@@ -54,21 +85,135 @@
     \item Los ciervos deben ir en grupos de a cuatro.
     \item No debe haber más de cinco jirafas.
     \end{itemize}
+    Generatrices:
+    
+    Para los ganzos queda definida por:
+    \begin{align*}
+    G(z)=z^0+z^1+z^2+\dots+z^n=\sum_(n \geqslant 0) z^n =\frac{1}{1-z}
+    \end{align*}
+    Para los elefantes, dado que solo pueden haber 2 como máximo, se tiene que su generatriz solo puede llegar al término $z^2$, que es la siguiente:
+    \begin{align*}
+    E(z)=z^0+z^1+z^2
+    \end{align*}
+    Para los ciervos solo se necesitan los términos de la generatriz que sean múltiplos de 4:
+    \begin{align*}
+    C(z)=z^0+z^4+z^8+\dots+z^{4n}=\sum_{n \geqslant 0} (z^4)^n=\frac{1}{1-z^4}
+    \end{align*}
+    Finalmente para las girafas, su generatriz solo puede llegar al término $z^5$:
+    \begin{align*}
+    G(z)=z^0+z^1+z^2+z^3+z^4+z^5
+	\end{align*}    
+	Luego de esto, al multiplicar las cuatro generatrices obtendremos un polinomio que determinara las formas de ordenarlos según la cantidad de animales, esto se determina con el coeficiente que acompaña a un z(formas de ordenarlo) y el exponente al que esta elevado (cantidad de animales).
+	
+	Generatriz safari:
+	\begin{align*}
+	S(z)=\frac{1}{1-z} \cdot (z^0+z^1+z^2) \cdot \frac{1}{1-z^4} \cdot (z^0+z^1+z^2+z^3+z^4+z^5) 
+	\end{align*}	
+	Utilizando fracciones parciales:
+	\begin{align*}
+	S(z)= z^2-\frac{1}{2(z^2+1)}+3z+\frac{9}{z-1}+\frac{9}{2(z-1)^2}+6
+	\end{align*}
+	Manipulando las expresiones:
+	\begin{align*}
+	&z^2=\sum_{n=2} z^n\\
+	&-\frac{1}{2(z^2+1)}=\frac{-1}{2}\sum_{n \geqslant 0} \binom{-1}{n}z^{2n}=\frac{-1}{2}\sum_{n\geqslant 0} (-1)^n\binom{n}{0}z^{2n}=\frac{-1}{2}\sum_{n\geqslant 0}(-1)^nz^{2n}\\
+	&3z=3\sum_{n=1} z^n\\
+	&\frac{9}{z-1+}=\frac{-9}{1-z}=-9\sum_{n \geqslant 0} z^n\\
+	&\frac{9}{2(z-1)^2}=\frac{9}{2}\sum_{n \geqslant 0} (n+1)z^n\\
+	&6=6z^0=6\sum_{n=0}z^n
+	\end{align*}
+	Reemplazando en $S(z)$:
+	\begin{align*}
+	S(z)=\sum_{n=2} z^n+\frac{-1}{2}\sum_{n {}\geqslant 0} (-1)^nz^{2n}+3\sum_{n=1} z^n-9\sum_{n \geqslant 0} z^n+\frac{9}{2}\sum_{n \geqslant 0} (n+1)z^n+6\sum_{n=0}z^n
+	\end{align*}
     \begin{enumerate}
     \item[a)] ¿De cuántas formas se puede armar esta área si se quiere que hayan 20 animales en ella?
+    
+    En este caso nos intereza obtener todos los términos que esten elevados a 20, ya que queremos formar grupos de 20 animales. Entonces, en cada expresión de $S(z)$ intentamos obtener un $z^20$ para poder sumarlos todos.
+    \begin{align*}
+    S(z)&=\frac{-1}{2}(-1)^{10} \cdot z^{2(10)}- 9z^{20}+\frac{9}{2}(20+1)z^{20}\\
+    &=z^{20}(\frac{-1}{2}-9+\frac{189}{2})\\
+    &=z^{20}(85)
+    \end{align*}
+    Luego de esto concluimos que existen 85 formas distinas de armar la zona del safari.
+    
     \item[b)] Se agrega una quinta regulación: si se decide incluir alguna especie en el área, se debe incluir más de un animal de dicha especie. ¿De cuántas formas se puede armar ahora el área con 20 animales?
+    La generatriz de la nueva especie esta definida por:
+    \begin{align*}
+    N(z)=z^2+z^3+ \dots +z^n \\
+    = -(z+1) + \sum_{n \geqslant 0} z^n\\
+    =-(z+1)+\frac{1}{1-z}\\
+    =\frac{z^2}{1-z}
+    \end{align*}
+    Multiplicamos por S(z) para obtener la nueva generatriz para ordenar a los animales:
+    \begin{align*}
+    F(z)&=N(z) \cdot S(z)\\
+    	&=\frac{z^2}{1-z} \cdot \frac{1}{1-z} \cdot (z^0+z^1+z^2) \cdot \frac{1}{1-z^4} \cdot (z^0+z^1+z^2+z^3+z^4+z^5) 
+    \end{align*}
+    Ocupando calculadora de series de Taylor obtenemos:
+    \begin{align*}
+    F(z)=z^2+4z^3+10z^4+19z^5+32z^6+ \dots + 617z^{19} + 694z^{20}+775z^21+ \dots
+	\end{align*}
+	Con lo que determinamos que el número de formas de armar el safari con la quinta regulación es 694, ya que este número es el que acompaña a $z^20$.
     \end{enumerate}
-	\hfill (35 ptos.)
 	
 	%% Pregunta 3
 	\section{Da2 mágicos}
     Se tienen dos dados canónicos de 4 caras (\{1,2,3,4\}), un dado canónico de 6 caras (\{1,2,3,4,5,6\}), dos dados canónicos de 8 caras (\{1,2,3,4,5,6,7,8\}) y un dado desconocido. Determine, en cada caso, el dado desconocido (número de caras y los valores de cada cara):
+    
+    Generatrices:
+    \begin{align*}
+    D_{4}(z)&=z+z^2+z^3+z^4\\
+    D_{6}(z)&=z+z^2+z^3+z^4+z^5+z^6 \\
+    D_{8}(z)&=z+z^2+z^3+z^4+z^5+z^6+z^7+z^8
+    \end{align*}
+    
     \begin{itemize}
     \item[a)] Si se tiran los 2 dados canónicos de 4 caras y el dado desconocido, existe la misma posibilidad de que salgan cada uno de los valores que al tirar los 2 dados canónicos de 8 caras.
-    \item[b)] Determine si existe un dado tal que si se tira el dado desconocido y el dado (\{0,1,2\}), exista el doble de posibilidad de que salga un 1, 3 y 5 que al tirar el dado canónico de 6 caras, y la misma posibilidad para los demás valores.
-    \item[c)] ¿Existe un dado tal que al tirarlo con el dado \{1,2,2,3,3,4,4,5\}, tiene la misma posibilidad de que salgan cada uno de los valores que al tirar los dos dados canónicos de 8 caras? Si es así, encuentre el dado.
-	\end{itemize}
+    Planteamos la igualdad como una multiplicación de generatrices:
+    \begin{align*}
+    D_d(z) \cdot D_4(z) \cdot D_4(z) &= D_8(z) \cdot D_8(z)\\
+    D_d(z) \cdot (D_4(z))^2 &=(D_8(z))^2\\
+    D_d(z)&=\frac{(D_8(z))^2}{(D_4(z))^2}\\
+    D_d(z)&=\frac{(z+z^2+z^3+z^4+z^5+z^6+z^7+z^8)^2}{(z+z^2+z^3+z^4)^2}\\
+    D_d(z)&=(z^4+1)^2\\
+    D_d(z)&=z^8+2z^4+1
+    \end{align*}
+    Luego de despejar la generatriz del dado desconocido podemos determinar que este posee 4 caras, una con un valor de 8, dos con un valor de 4 y una con un valor igual a cero(\{8,4,4,0\}).
     
-	\hfill (35 ptos.)\\
-	\vfill\hfill DSW/\LaTeXe
+    \item[b)] Determine si existe un dado tal que si se tira el dado desconocido y el dado (\{0,1,2\}), exista el doble de posibilidad de que salga un 1, 3 y 5 que al tirar el dado canónico de 6 caras, y la misma posibilidad para los demás valores.
+    
+    El dado nuevo de 3 caras queda definido por la generatriz:
+    \begin{align*}
+    D_3(z)=1+z+z^2
+    \end{align*}
+    
+    Ahora bien, se nos pide determinar un dado tal que multiplicado por el anterior, tengamos el doble de posibilidades de obtener 1,3 y 5 que al tirar un dado canónico de 6 caras. Esto se puede expresar modificandola genetratriz del dado canónico de 6 caras de la siguiente forma:
+    \begin{align*}
+    D_{6nuevo}(z)&=2z+z^2+2z^3+z^4+2z^5+z^6
+    \end{align*}
+    De esta forma conseguimos que las posibilidades de obtener 1,3 y 5 sean el doble que las demás debido a los coeficientes que los acompañan.
+    Ahora planteamos la igualdad como una multiplicación de generatrices:
+    \begin{align*}
+    D_d(z) \cdot D_3(z)&=D_{6nuevo}(z)\\
+    D_d(z) &= \frac{D_{6nuevo}(z)}{D_3(z)}\\
+    D_d(z)&= \frac{2z+z^2+2z^3+z^4+2z^5+z^6}{1+z+z^2}    \\
+    D_d(Z)&=z^4+z^3-z^2+2z
+    \end{align*}
+    Al ver esta generatriz, nos percatamos de que posee un coeficiente con un valor negativo, lo que indicaría que posee una cara negativa con valor igual a dos, situación que no puede ocurrir, por lo que no existe dado que cumpla la condición.
+    \item[c)] ¿Existe un dado tal que al tirarlo con el dado \{1,2,2,3,3,4,4,5\}, tiene la misma posibilidad de que salgan cada uno de los valores que al tirar los dos dados canónicos de 8 caras? Si es así, encuentre el dado.
+    
+    El dado nuevo de 8 caras queda definido por la generatriz:
+    \begin{align*}
+    D_{nuevo}(z)=z+2z^2+2z^3+2z^4+z^5
+    \end{align*}
+    Planteamos la igualdad como una multiplicación de generatrices:
+    \begin{align*}
+    D_d(z) \cdot D_{nuevo}(z)&=D_8(z)\\
+    D_d(z)&= \frac{D_8(z)}{D_{nuevo}(z)}\\
+    D_d(z)&=\frac{z+z^2+z^3+z^4+z^5+z^6+z^7+z^8}{z+2z^2+2z^3+2z^4+z^5}\\
+    D_d(z)&=z^11+z^9+2z^7+2z^5+z^3+z
+    \end{align*}
+    De esta forma, al despejar la generatriz del dado desconocido podemos determinar que este posee 8 caras (\{11,9,7,7,5,5,3,1\}).
+	\end{itemize}
 \end{document}
